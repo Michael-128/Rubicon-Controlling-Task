@@ -69,4 +69,65 @@ class CustomerRepository extends ServiceEntityRepository
 
         return $conn->executeQuery($sql)->fetchAllAssociative();
     }
+
+    public function findTopSourcesByStatus(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        
+        $sql = "
+            WITH source_count AS (
+                SELECT 
+                    status, 
+                    source, 
+                    COUNT(*) AS customer_count 
+                FROM 
+                    customer 
+                GROUP BY 
+                    status, source
+            ),
+            max_count AS (
+                SELECT 
+                    status, 
+                    MAX(customer_count) AS max_customer_count 
+                FROM 
+                    source_count 
+                GROUP BY 
+                    status
+            )
+            SELECT 
+                sc.status,
+                GROUP_CONCAT(sc.source, ', ') AS sources
+            FROM 
+                source_count sc
+            JOIN 
+                max_count mc 
+            ON 
+                sc.status = mc.status
+                AND sc.customer_count = mc.max_customer_count
+            GROUP BY 
+                sc.status
+            ORDER BY 
+                sc.status;
+        ";
+
+        return $conn->executeQuery($sql)->fetchAllAssociative();
+    }
+
+    // If I was using PostgreSQL, I would use REGEXP_REPLACE, LENGTH and SUM directly in the query instead of manually iterating over the results
+    public function totalConsonantsInCustomerNames(): int
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        
+        $sql = "SELECT customer FROM customer";
+        $customers = $conn->executeQuery($sql)->fetchFirstColumn();
+        
+        $consonantCount = 0;
+        foreach ($customers as $customer) {
+            $onlyLetters = preg_replace('/[^a-zA-Z]/', '', $customer);
+            $onlyConsonants = preg_replace('/[aeiouAEIOU]/', '', $onlyLetters);
+            $consonantCount += strlen($onlyConsonants);
+        }
+        
+        return $consonantCount;
+    }
 }

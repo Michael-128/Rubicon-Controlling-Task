@@ -13,10 +13,14 @@ class CustomerController extends AbstractController
     {
         $topMedications = $customerRepository->findTopMedications(30);
         $topCountriesByGroup = $customerRepository->findTopCountriesByGroup();
+        $topSourcesByStatus = $customerRepository->findTopSourcesByStatus();
+        $totalConsonantsInCustomerNames = $customerRepository->totalConsonantsInCustomerNames();
 
         return $this->render('customer/index.html.twig', [
             'topMedications' => $topMedications,
             'topCountriesByGroup' => $topCountriesByGroup,
+            'topSourcesByStatus' => $topSourcesByStatus,
+            'totalConsonantsInCustomerNames' => $totalConsonantsInCustomerNames,
         ]);
     }
 }
