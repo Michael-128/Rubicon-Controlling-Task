@@ -1,5 +1,5 @@
 <div>
-    <h2>Najczęściej występujące źródła klientów w zależności od statusu</h2>
+    <h3>Najczęściej występujące źródła klientów w zależności od statusu</h3>
     <ul>
         {% for source in topSourcesByStatus %}
         <li> <strong>{{ source.status }}</strong>: {{ source.sources }}</li>
