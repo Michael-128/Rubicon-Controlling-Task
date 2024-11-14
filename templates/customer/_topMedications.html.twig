@@ -1,0 +1,21 @@
+<div>
+    <h2>Top 30 najczęściej zamawianych leków</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nr.</th>
+                <th>Lek</th>
+                <th>Ilość</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medication in topMedications %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ medication.order_name }}</td>
+                    <td>{{ medication.count }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

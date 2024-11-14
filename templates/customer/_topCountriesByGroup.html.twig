@@ -1,0 +1,8 @@
+<div>
+    <h2>Najczęściej występujące kraje w grupach klientów</h2>
+    <ul>
+        {% for country in topCountriesByGroup %}
+            <li><strong>Grupa {{ country.group_name }}</strong>: {{ country.countries }}</li>
+        {% endfor %}
+    </ul>
+</div>

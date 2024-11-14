@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Baza Klientów{% endblock %}
+
+{% block body %}
+<div>
+    <h1>Baza Klientów</h1>
+
+    {% include 'customer/_topMedications.html.twig' with { topMedications: topMedications } %}
+    {% include 'customer/_topCountriesByGroup.html.twig' with { topCountriesByGroup: topCountriesByGroup } %}
+</div>
+{% endblock %}
