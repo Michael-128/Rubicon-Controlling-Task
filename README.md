@@ -11,11 +11,11 @@ composer install
 ```
 - Set up database
 ```bash
-php bin/console make:migration && php bin/console doctrine:migrations:migrate
+php bin/console make:migration --env=dev && php bin/console doctrine:migrations:migrate --env=dev
 ```
 - Load data into the database
 ```bash
-php bin/console doctrine:fixtures:load
+php bin/console doctrine:fixtures:load --env=dev
 ```
 - Serve
 ```bash
